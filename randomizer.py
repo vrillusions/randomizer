@@ -22,7 +22,7 @@ class gb:
   """Global Variables"""
   items = {}
   displayLimit = 100
-  baseLimit = 100000 # this divided # of items is the final limit
+  baseLimit = 200000 # this divided # of items is the final limit
   limit = 0
   displayCount = 0
   pw = None
