@@ -11,12 +11,15 @@ r - resumes processing
 
 todo: be able to handle a list that extends the length of the window.  It will
 error out if the length exceeds the screen right now.
+"""
 
-@version - $Id$ """
+# $Id$
+__version__ = "$Rev$"
 
 import curses, curses.wrapper
 import sys, random, os, math, string, getopt
 import time
+import traceback
 from operator import itemgetter
 
 class gb:
@@ -34,27 +37,30 @@ class Pinwheel:
 	"""Displays the pinwheel at the top of the page
 	
 	It will always display on second line"""
-	stdscr = None  #set this to the stdscr object
-	index = 0
-	img = ['/', '-', '\\', '|', '/', '-', '\\', '|']
-	curCount = 0
-	barLength = 20
+	
+	def __init__(self):
+		self.stdscr = None  #set this to the stdscr object
+		self.index = 0
+		self.img = ['/', '-', '\\', '|', '/', '-', '\\', '|']
+		self.curCount = 0
+		self.barLength = 20
+		
 	def display(self):
 		"""Increments the index and displays the next image"""
-		progress = float(self.curCount) / float(gb.limit)
-		barDoneLength = math.floor(self.barLength * progress)
-		if barDoneLength < 0:
-			barDoneLength = 0
-		barDone = '#' * int(barDoneLength)
-		barNotDone = '-' * int(self.barLength - barDoneLength)
-		percentage = int(math.floor(progress * 100))
-		line = ' ' + self.img[self.index] + ' '
-		line = line + '[' + barDone + barNotDone + '] ' + str(percentage) + '%'
+		self.progress = float(self.curCount) / float(gb.limit)
+		self.barDoneLength = math.floor(self.barLength * self.progress)
+		if self.barDoneLength < 0:
+			self.barDoneLength = 0
+		self.barDone = '#' * int(self.barDoneLength)
+		self.barNotDone = '-' * int(self.barLength - self.barDoneLength)
+		self.percentage = int(math.floor(self.progress * 100))
+		self.line = ' ' + self.img[self.index] + ' '
+		self.line = self.line + '[' + self.barDone + self.barNotDone + '] ' + str(self.percentage) + '%'
 		self.index = self.index + 1
 		if self.index >= len(self.img):
 			self.index = 0
 		self.stdscr.move(1, 0)
-		self.stdscr.addstr(line)
+		self.stdscr.addstr(self.line)
 		self.stdscr.move(0, 0)
 		#self.stdscr.refresh()
 
@@ -195,5 +201,21 @@ def main(stdscr):
 if __name__ == '__main__':
 	# process arguments before running screen in case they want help
 	processArgv()
-	# run the program inside a wrapper to catch errors nicely
-	curses.wrapper(lambda stdscr: main(stdscr))
+	
+	try:
+		# run the program inside a wrapper to catch errors nicely
+		curses.wrapper(lambda stdscr: main(stdscr))
+	except KeyboardInterrupt, e:
+		# Ctrl-c
+		raise e
+	except SystemExit, e:
+		# sys.exit()
+		raise e
+	except Exception, e:
+		print "ERROR, UNEXPECTED EXCEPTION"
+		print str(e)
+		traceback.print_exc()
+		sys.exit(1)
+	else:
+		# Main function is done, exit cleanly
+		sys.exit(0)
