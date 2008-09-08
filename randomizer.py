@@ -17,10 +17,11 @@ error out if the length exceeds the screen right now.
 __version__ = "$Rev$"
 
 import curses, curses.wrapper
-import sys, random, os, math, string, getopt
+import sys, random, os, math, string
 import time
 import traceback
 from operator import itemgetter
+from optparse import OptionParser
 
 
 class gb:
@@ -211,8 +212,13 @@ def main(stdscr):
 
 
 if __name__ == '__main__':
-    # process arguments before running screen in case they want help
-    processArgv()
+    # process arguments before running screen in case they want help    
+    parser = OptionParser()
+    parser.add_option('-l', '--list', default=gb.filename,
+        help="use list FILE (default: " + gb.filename + ')', metavar='FILE')
+    (options, args) = parser.parse_args()
+    
+    gb.filename = options.list
     
     try:
         # run the program inside a wrapper to catch errors nicely
