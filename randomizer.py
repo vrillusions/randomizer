@@ -158,22 +158,6 @@ def populateList(stdscr):
     gb.limit = int(math.floor(gb.baseLimit / len(gb.items)))
 
 
-def processArgv():
-    """Process the options specified on command line"""
-    try:
-        optlist, args = getopt.getopt(sys.argv[1:], 'hl:')
-    except getopt.GetoptError:
-        print "Unrecognized option, type -h for help", getopt.GetoptError.opt
-        sys.exit(2)
-    for opt, val in optlist:
-        if opt == '-l':
-            gb.filename = val
-        elif opt == '-h':
-            print ' -l    List to use (default:', gb.filename, ')'
-            print ' -h    This help message'
-            sys.exit(0)
-
-
 def resetCursor(stdscr):
     """resets the cursor to the 0, 0 spot so it isn't jumping all over the place
     
