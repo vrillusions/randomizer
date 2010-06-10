@@ -1,6 +1,8 @@
 # Randomizer
 
-At work we always had problems deciding where to go for lunch.  Created first instance as a regular shell script but then decided to make it python and go one step further and use curses.
+This is an python/ncurses based script that takes a list of items and randomly assigns a point to each item.  The one to reach the target number first wins.
+
+This was created when at work we were trying to decide on a place to have lunch.  Since no one could think of anything I made this to do the thinking for us.  It purposely takes a minute or two (you need adjust the target number based on your computer speed) to allow anticipation of who's going to win.
 
 ## Features
 
