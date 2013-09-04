@@ -1,4 +1,4 @@
-# Randomizer
+# Randomizer [![Project Status](http://stillmaintained.com/vrillusions/randomizer.png)](http://stillmaintained.com/vrillusions/randomizer)
 
 This is an python/ncurses based script that takes a list of items and randomly assigns a point to each item.  The one to reach the target number first wins.
 
